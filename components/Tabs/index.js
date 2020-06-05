@@ -8,37 +8,26 @@
 //  Each tab should look like this:
 //    <div class="tab">topic here</div>
 
-function Tabs() {
-    const tabs = document.querySelector('.tabs')
-    
-    const topics = document.querySelector('.topics')
+axios.get('https://lambda-times-backend.herokuapp.com/topics')
+    .then(response => {
+    // debugger
+    console.log('saul goodman', response.data.topics);
+    // create new tab forEach topic
+    // append to DOM under .topics
+    const data = response.data.topics
+        data.forEach(item => {
+            const tab = document.createElement('div')
+            tab.classList.add('tab')
+            tab.textContent = item
+        
+            const entryPoint = document.querySelector('.topics');
+            entryPoint.appendChild(tab);
+        });
+    })
+    .catch(error => {
+    // debugger
+    console.log('something went wrong', error)
+    },[])
 
-    const tab = document.createElement('div')
-    tab.classList.add('tab')
+    console.log('right after the whole promise thing')
 
-    tabs.appendChild(topics)
-    topics.appendChild(tab)
-
-
-    axios.get('https://lambda-times-backend.herokuapp.com/topics')
-        .then(response => {
-        // debugger
-        console.log('saul goodman', response.data.topics);
-
-        response.data.topics.forEach(item =>{
-            tabs.append(Tabs)
-        })
-        // create new tab forEach topic
-        // append to DOM under .topics
-        })
-        .catch(error => {
-        // debugger
-        console.log('something went wrong', error)
-        },[])
-
-        console.log('right after the whole promise thing')
-
-    return tabs;
-}
-
-Tabs();
